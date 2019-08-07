@@ -1,17 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useForm from 'react-hook-form';
-import { Form, Button } from 'antd';
+import { Form, Button, Input } from 'antd';
 
 function FormComponent() {
-  const { register, handleSubmit } = useForm(); // initialise the hook
+  const { register, handleSubmit, setValue } = useForm(); // initialise the hook
   const onSubmit = data => {
     console.log(data);
   }; // callback when validation pass
 
+  useEffect(() => {
+    register({ name: 'username' });
+    register({ name: 'password' });
+  }, [register]);
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <input name="username" className="ant-input" ref={register} />
-      <input name="password" className="ant-input" ref={register} />
+      <Input onChange={e => setValue('username', e.target.value, true)} />
+      <Input onChange={e => setValue('password', e.target.value, true)} />
       <Button type="primary" htmlType="submit">
         Log in
       </Button>
